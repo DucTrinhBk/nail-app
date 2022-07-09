@@ -14,53 +14,28 @@ class SelectServiceBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => SelectServiceController());
   }
-
 }
 
 class SelectServiceController extends BaseController {
   var technicians = [
     Technician(
-      id : 1,
+      id: 1,
       name: 'My Duyen',
     ),
-    Technician(
-      id : 2,
-      name: 'Ngoc Anh'
-    ),
-    Technician(
-      id: 3,
-      name: 'Thanh Huong'
-    )
+    Technician(id: 2, name: 'Ngoc Anh'),
+    Technician(id: 3, name: 'Thanh Huong')
   ];
 
   var services = [
-    Service(
-      id : 1,
-      name: 'manicure',
-      price: 3
-    ),
-    Service(
-        id : 2,
-        name: 'pedicure',
-        price: 3
-    ),
-    Service(
-        id : 3,
-        name: 'waxing',
-        price: 3
-    ),Service(
-        id : 4,
-        name: 'massage',
-        price: 3
-    ),Service(
-        id : 5,
-        name: 'hair',
-        price: 3
-    ),
+    Service(id: 1, name: 'manicure', price: 3),
+    Service(id: 2, name: 'pedicure', price: 3),
+    Service(id: 3, name: 'waxing', price: 3),
+    Service(id: 4, name: 'massage', price: 3),
+    Service(id: 5, name: 'hair', price: 3),
   ];
   var orders = [];
   @override
-  void onInit() async{
+  void onInit() async {
     setEnableScrollController = true;
     super.onInit();
     await 2.delay();
@@ -69,35 +44,35 @@ class SelectServiceController extends BaseController {
     update();
     logWhenDebug("CURRENT LANGUAGE : ", Get.locale.languageCode.toString());
   }
-  selectTechnician(int index,bool value){
+
+  selectTechnician(int index, bool value) {
     technicians[index].isSelected = value;
-    if(!value){
-      orders.removeWhere((e) => e.technicianId ==technicians[index].id);
+    if (!value) {
+      orders.removeWhere((e) => e.technicianId == technicians[index].id);
     }
     update();
   }
 
-  selectService(int index,bool value){
+  selectService(int index, bool value) {
     services[index].isSelected = value;
-    if(!value){
+    if (!value) {
       orders.removeWhere((e) => e.serviceId == services[index].id);
     }
     update();
   }
 
-  addOrder(){
+  addOrder() {
     orders.clear();
-    for(var t in technicians){
-      if(t.isSelected){
-        for( var s in services){
-          if(s.isSelected){
+    for (var t in technicians) {
+      if (t.isSelected) {
+        for (var s in services) {
+          if (s.isSelected) {
             orders.add(Order(
-              technicianId: t.id,
-              serviceId: s.id,
-              technicianName: t.name,
-              serviceName: s.name,
-              price: s.price
-            ));
+                technicianId: t.id,
+                serviceId: s.id,
+                technicianName: t.name,
+                serviceName: s.name,
+                price: s.price));
           }
         }
       }
@@ -105,8 +80,29 @@ class SelectServiceController extends BaseController {
     update();
   }
 
-  deleteOrder(int index){
+  deleteOrder(int index) {
     orders.removeAt(index);
     update();
+  }
+
+  addOrderQuantity(int index) {
+    if (orders.length <= 0) {
+      return;
+    }
+    orders[index].quantity++;
+    update();
+  }
+
+  minusOrderQuantity(int index) {
+    if (orders.length <= 0) {
+      return;
+    }
+    if (orders[index].quantity <= 1) {
+      orders.removeAt(index);
+    } else {
+      orders[index].quantity--;
+    }
+    update();
+    return true;
   }
 }

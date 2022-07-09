@@ -130,6 +130,7 @@ class SelectServiceScreen extends BaseView<SelectServiceController> {
                             contentPadding: EdgeInsets.zero,
                             title: Text('${itemModel.serviceName}',style: TextStyle(fontSize: 14),),
                             subtitle: Container(
+                              height: 26,
                               padding: EdgeInsets.fromLTRB(0, 0, 0, MySpace.marginS),
                               decoration: BoxDecoration(
                                 border: Border(
@@ -140,12 +141,14 @@ class SelectServiceScreen extends BaseView<SelectServiceController> {
                             ),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),) ,
                             minLeadingWidth : 0,
+                            horizontalTitleGap: 0,
                             leading: Container(
-                              width: 15,
+                              width: MySpace.paddingM * 3,
+                              padding: EdgeInsets.fromLTRB(MySpace.paddingZero, MySpace.paddingZero, MySpace.paddingM, MySpace.paddingZero),
                               alignment: Alignment.center,
                               child: Ink(
-                                width: 15,
-                                height: 15,
+                                width: MySpace.paddingL,
+                                height: MySpace.paddingL,
                                 padding: EdgeInsets.zero,
                                 decoration: ShapeDecoration(
                                   color: Colors.white,
@@ -153,41 +156,52 @@ class SelectServiceScreen extends BaseView<SelectServiceController> {
                                 ),
                                 child: IconButton(
                                   padding: EdgeInsets.zero,
-                                  icon: Icon(Icons.close,color: Colors.black,size: 10,),
+                                  icon: Icon(Icons.close,color: Colors.black,size: MySpace.paddingL,),
                                   onPressed: (){
                                     controller.deleteOrder(index);
                                   },
                                 ),
                               ),
                             ),
-                            trailing:
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                          onPressed: (){},
-                                          icon: Icon(Icons.remove_circle_outline,size: 15,),
-                                          padding: EdgeInsets.zero,
-                                          constraints: BoxConstraints(
-                                              maxWidth: 15,
-                                              minWidth: 5
-                                          ),
-                                      ),
-                                      Container(
-                                        child: Text('${itemModel.quantity}'),
-                                        padding: EdgeInsets.fromLTRB(MySpace.marginM, MySpace.paddingZero, MySpace.marginM, MySpace.paddingZero),
-                                      ),
-                                      IconButton(
-                                          onPressed: (){},
-                                          icon: Icon(Icons.add_circle_outline,size: 15,),
-                                          padding: EdgeInsets.zero,
-                                          constraints: BoxConstraints(
-                                            maxWidth: 15,
-                                            minWidth: 5
-                                          ),
-                                      ),
-                                    ],
+                            trailing: Container(
+                              height: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(color: Colors.white, width: 1, style: BorderStyle.solid),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: (){
+                                      controller.minusOrderQuantity(index);
+                                    },
+                                    icon: Icon(Icons.remove_circle_outline,size: 15,),
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(
+                                        maxWidth: 15,
+                                        minWidth: 5
+                                    ),
                                   ),
+                                  Container(
+                                    child: Text('${itemModel.quantity}'),
+                                    padding: EdgeInsets.fromLTRB(MySpace.marginM, MySpace.paddingZero, MySpace.marginM, MySpace.paddingZero),
+                                  ),
+                                  IconButton(
+                                    onPressed: (){
+                                      controller.addOrderQuantity(index);
+                                    },
+                                    icon: Icon(Icons.add_circle_outline,size: 15,),
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(
+                                        maxWidth: 15,
+                                        minWidth: 5
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             selectedTileColor: Colors.transparent,
                           );
                         },
